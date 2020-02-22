@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { routes } from "../router/router";
 import { Layout } from "antd";
+import BaseLayout from "../components/BaseLayout/BaseLayout";
 import Sidebar from "../components/Sidebar/Sidebar";
 import useStyles from "./Admin.style";
 const { Content } = Layout;
@@ -26,11 +27,11 @@ const switchRoutes = (
 export default function Admin() {
   const classes = useStyles();
   return (
-    <Layout className={classes.Layout}>
+    <BaseLayout>
       <Sidebar routes={routes} />
       <Layout className={classes.Main}>
         <Content className={classes.Content}>{switchRoutes}</Content>
       </Layout>
-    </Layout>
+    </BaseLayout>
   );
 }

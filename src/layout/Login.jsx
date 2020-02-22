@@ -1,14 +1,14 @@
 import React from "react";
 import useStyles from "./Login.style";
-import { Row, Col, Card, Form, Icon, Input, Button } from "antd";
-import services from "../services/services";
+import { Row, Col, Card, Form, Icon, Input, Button, message } from "antd";
+import { services } from "../services";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { authUserInfo } from "../store/userInfo/action";
-// import { useHistory } from "react-router-dom";
 
 const Login = props => {
   const classes = useStyles();
-  // const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { getFieldDecorator, validateFields } = props.form;
 
@@ -22,10 +22,10 @@ const Login = props => {
                 access_token: e.access_token
               })
             );
-            // setTimeout(() => history.push("/admin"), 100);
+            history.push("/online");
           })
           .catch(e => {
-            console.log(e);
+            message.error(e.error);
           });
       }
     });
