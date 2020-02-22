@@ -7,6 +7,7 @@ export function setUserInfo(payload) {
 }
 
 export function delUserInfo(payload) {
+  window.localStorage.removeItem("access_token");
   return {
     type: DELUSERINFO,
     payload
@@ -14,6 +15,7 @@ export function delUserInfo(payload) {
 }
 
 export function authUserInfo(payload) {
+  window.localStorage.setItem("access_token", payload.access_token);
   return {
     type: AUTHUSERINFO,
     payload

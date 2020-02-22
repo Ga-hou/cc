@@ -5,6 +5,7 @@ import { hot } from "react-hot-loader";
 import { createBrowserHistory } from "history";
 import Auth from "./components/Auth/Auth";
 import Admin from "./layout/Admin";
+import OnLine from "./layout/OnLine";
 import Login from "./layout/Login";
 import Agent from "./layout/Agent";
 import { store } from "./store";
@@ -22,6 +23,7 @@ function App() {
               <Switch>
                 <Route path={"/admin"} component={Admin} />
                 <Route path={"/user"} component={Agent} />
+                <Route path={"/online"} component={OnLine} />
                 <Redirect from={"/"} to={"/user"} />
               </Switch>
             ) : (

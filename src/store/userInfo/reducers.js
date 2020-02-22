@@ -1,5 +1,4 @@
 import { AUTHUSERINFO, DELUSERINFO, SETUSERINFO } from "./types";
-
 const initialState = {
   username: "",
   staffName: "",
@@ -11,13 +10,13 @@ const initialState = {
 export function userInfoReducer(state = initialState, action) {
   switch (action.type) {
     case AUTHUSERINFO:
-      state.access_token = action.payload.access_token;
-      console.log(state);
-      return state;
+      return Object.assign({}, state, {
+        access_token: action.payload.access_token
+      });
     case SETUSERINFO:
-      return { ...state, ...action.payload };
+      return Object.assign({}, state, action.payload);
     case DELUSERINFO:
-      return initialState;
+      return Object.assign({}, initialState);
     default:
       return state;
   }
