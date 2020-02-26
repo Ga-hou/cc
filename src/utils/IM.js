@@ -1,4 +1,4 @@
-// import socket from "socket.io-client";
+import socket from "socket.io-client";
 import { ulid } from "ulid";
 
 class IM {
@@ -10,8 +10,8 @@ class IM {
 
   open() {
     if (this.socket === null) {
-      // this.socket = socket("http://localhost:8989");
-      // this.init();
+      this.socket = socket("http://localhost:8989");
+      this.init();
     }
   }
 
@@ -33,7 +33,7 @@ class IM {
   }
 
   send(data) {
-    this.socket.emit("event", createTextMessage(data));
+    this.socket.emit("message", createTextMessage(data));
   }
 
   on(type, callback) {

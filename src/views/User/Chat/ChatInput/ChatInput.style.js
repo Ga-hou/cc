@@ -1,8 +1,10 @@
 import { createUseStyles } from "react-jss";
 
 export default createUseStyles({
+  chatInputWrapper: {
+    position: "relative"
+  },
   chatInput: {
-    position: "relative",
     height: 200,
     borderTop: "1px solid #e8e8e8",
     padding: 20,
