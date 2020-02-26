@@ -1,34 +1,25 @@
-import axios from "./axios";
+import { Axios } from "./axios";
 
 export function services(url, data) {
-  const access_token = window.localStorage.getItem("access_token");
   return new Promise((resolve, reject) => {
-    axios
-      .request({
-        method: "post",
-        url,
-        data,
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
-      })
+    Axios.request({
+      method: "post",
+      url,
+      data
+    })
       .then(res => {
-        if ((res.status >= 200 && res.status < 300) || res.status === 403) {
-          console.log("services success", res);
-          resolve(res.data.data);
-        }
-        handleError(res.status);
-        reject(res.data);
+        console.log(res);
+        resolve(res);
       })
       .catch(e => {
-        console.error("services fail", e);
-        reject(e);
+        console.error("services fail", e.data);
+        reject(e.data);
       });
   });
 }
-function handleError(code) {
-  if (code === 401) {
-    window.localStorage.removeItem("access_token");
-    window.location.href = "/login";
-  }
-}
+// function handleError(code) {
+//   if (code === 401) {
+//     window.localStorage.removeItem("access_token");
+//     // window.location.href = "/login";
+//   }
+// }

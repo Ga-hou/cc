@@ -1,8 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import useStyles from "./Login.style";
 import { Row, Col, Card, Form, Icon, Input, Button, message } from "antd";
 import { services } from "../services";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { authUserInfo } from "../store/userInfo/action";
 
@@ -15,11 +15,11 @@ const Login = props => {
   const requestLogin = () => {
     validateFields((error, values) => {
       if (!error) {
-        services("http://localhost:8080/auth/login", values)
-          .then(e => {
+        services("/auth/login", values)
+          .then(res => {
             dispatch(
               authUserInfo({
-                access_token: e.access_token
+                token: res.data.token
               })
             );
             history.push("/online");

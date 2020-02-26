@@ -13,6 +13,9 @@ export default createUseStyles({
     justifyContent: "space-around",
     alignItems: "space-around"
   },
+  buttonWrapper: {
+    marginTop: 40
+  },
   button: {
     width: 160,
     height: 50,

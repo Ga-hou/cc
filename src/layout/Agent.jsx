@@ -1,5 +1,17 @@
 import React from "react";
-
+import { Layout } from "antd";
+import BaseLayout from "../components/BaseLayout/BaseLayout";
+import TopBar from "../components/TopBar/TopBar";
+import Aside from "../views/User/Aside/Aside";
+import WorkBench from "../views/User/WorkBench/WorkBench";
 export default function Agent() {
-  return <h1>agent</h1>;
+  return (
+    <BaseLayout>
+      <TopBar />
+      <Layout>
+        <Aside />
+        <WorkBench />
+      </Layout>
+    </BaseLayout>
+  );
 }

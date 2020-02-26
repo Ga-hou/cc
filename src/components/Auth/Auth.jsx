@@ -1,30 +1,41 @@
 import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { message } from "antd";
+import { getToken } from "../../utils/token";
 import { setUserInfo } from "../../store/userInfo/action";
 import { services } from "../../services";
 function Auth(props) {
+  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const { access_token } = useSelector(e => e.userInfo);
-  const token = window.localStorage.getItem("access_token") || "";
+  const storageToken = getToken();
+  const { token } = useSelector(e => e.userInfo);
   React.useEffect(() => {
-    if (token) {
-      services("auth/profile")
+    if (location.pathname !== "/login") {
+      services("user/profile")
         .then(res => {
           dispatch(
             setUserInfo({
-              username: res.username
+              username: res.data.user.username,
+              userRoles:
+                res.data.user.userRoles.length !== 0
+                  ? res.data.user.userRoles[0]
+                  : []
             })
           );
         })
-        .catch(e => {
-          message.error(e.error);
-        });
+        .catch(e => e);
     }
-  }, [token]);
+  }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (storageToken) {
+      history.push("/online");
+    }
+  }, []);
 
   return props.children({
-    auth: access_token || token
+    auth: token || storageToken
   });
 }
 

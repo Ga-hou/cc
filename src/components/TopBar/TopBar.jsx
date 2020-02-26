@@ -11,7 +11,6 @@ export default function TopBar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const logout = () => {
-    window.localStorage.removeItem("access_token");
     dispatch(delUserInfo());
     history.push("/login");
   };

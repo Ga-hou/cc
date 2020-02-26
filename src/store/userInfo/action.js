@@ -1,4 +1,5 @@
 import { SETUSERINFO, DELUSERINFO, AUTHUSERINFO } from "./types";
+import { removeToken, setToken } from "../../utils/token";
 export function setUserInfo(payload) {
   return {
     type: SETUSERINFO,
@@ -7,7 +8,7 @@ export function setUserInfo(payload) {
 }
 
 export function delUserInfo(payload) {
-  window.localStorage.removeItem("access_token");
+  removeToken();
   return {
     type: DELUSERINFO,
     payload
@@ -15,7 +16,7 @@ export function delUserInfo(payload) {
 }
 
 export function authUserInfo(payload) {
-  window.localStorage.setItem("access_token", payload.access_token);
+  setToken(payload.token);
   return {
     type: AUTHUSERINFO,
     payload
