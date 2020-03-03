@@ -12,25 +12,26 @@ function Auth(props) {
   const { token } = useSelector(e => e.userInfo);
   React.useEffect(() => {
     if (location.pathname !== "/login") {
-      services("user/profile")
-        .then(res => {
-          dispatch(
-            setUserInfo({
-              username: res.data.user.username,
-              userRoles:
-                res.data.user.userRoles.length !== 0
-                  ? res.data.user.userRoles[0]
-                  : []
-            })
-          );
-        })
-        .catch(e => e);
+      getToken() &&
+        services("user/profile")
+          .then(res => {
+            dispatch(
+              setUserInfo({
+                username: res.data.user.username,
+                userRoles:
+                  res.data.user.userRoles.length !== 0
+                    ? res.data.user.userRoles[0]
+                    : []
+              })
+            );
+          })
+          .catch(e => e);
     }
   }, [location.pathname]);
 
   React.useEffect(() => {
     if (storageToken) {
-      history.push("/online");
+      // history.push("/online");
     }
   }, []);
 

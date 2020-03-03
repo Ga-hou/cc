@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Layout, Avatar, Dropdown, Menu } from "antd";
 import useStyles from "./TopBar.style";
 const { Header } = Layout;
@@ -10,9 +10,15 @@ export default function TopBar() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  console.log(location);
   const logout = () => {
     dispatch(delUserInfo());
     history.push("/login");
+  };
+
+  const unLine = () => {
+    history.push("/online");
   };
 
   return (
@@ -20,7 +26,9 @@ export default function TopBar() {
       <Dropdown
         overlay={
           <Menu>
-            <Menu.Item>下线</Menu.Item>
+            {location.pathname !== "/online" && (
+              <Menu.Item onClick={unLine}>下线</Menu.Item>
+            )}
             <Menu.Item onClick={logout}>退出</Menu.Item>
           </Menu>
         }

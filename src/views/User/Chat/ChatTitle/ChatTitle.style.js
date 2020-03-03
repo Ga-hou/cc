@@ -3,11 +3,13 @@ import { createUseStyles } from "react-jss";
 export default createUseStyles({
   chatTitle: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between"
+    alignItems: "center"
+  },
+  roomInfo: {
+    flex: 1,
+    marginLeft: 20
   },
   finishButton: {
-    // height: 40,
-    // width: 120
+    alignSelf: "flex-end"
   }
 });

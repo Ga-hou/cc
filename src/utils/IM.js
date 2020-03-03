@@ -1,5 +1,6 @@
-import socket from "socket.io-client";
+import io from "socket.io-client";
 import { ulid } from "ulid";
+import { store } from "../store";
 
 class IM {
   constructor() {
@@ -10,12 +11,28 @@ class IM {
 
   open() {
     if (this.socket === null) {
-      this.socket = socket("http://localhost:8989");
+      this.socket = io("http://localhost:8989");
       this.init();
     }
   }
 
-  login() {}
+  close() {
+    this.socket.close();
+    this.socket = null;
+  }
+
+  login() {
+    this.socket.on("login", payload => {
+      console.log(payload);
+    });
+    const userInfo = store.getState().userInfo;
+    this.socket.emit(
+      "login",
+      createTextMessage({
+        userInfo
+      })
+    );
+  }
 
   logout() {}
 
@@ -30,10 +47,14 @@ class IM {
         });
       }
     });
+    this.socket.on("connect", () => {
+      this.login();
+    });
   }
 
   send(data) {
     this.socket.emit("message", createTextMessage(data));
+    this.socket.emit("login", createTextMessage(data));
   }
 
   on(type, callback) {
@@ -52,6 +73,8 @@ export function createTextMessage(data) {
   return {
     id: ulid(),
     timestamp: Date.now(),
+    flow: "out",
+    from: store.getState().userInfo.username,
     payload: {
       data
     }
