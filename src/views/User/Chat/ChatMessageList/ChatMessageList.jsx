@@ -1,61 +1,59 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Comment, Tooltip, Avatar } from "antd";
 import dayjs from "dayjs";
 import useStyles from "./ChatMessage.style";
+
+const usePrevious = value => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+};
+
 export default function ChatMessageList() {
   const classes = useStyles();
+  const socket = useSelector(e => e.socket);
+  const currentRoomMessage = usePrevious(socket.currentRoomMessage);
+  const { username } = useSelector(e => e.userInfo);
+  const messageEndRef = React.useRef(null);
+
+  React.useEffect(() => {
+    messageEndRef &&
+      messageEndRef.current &&
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [currentRoomMessage]);
+
   return (
     <div className={classes.chatMessageList}>
-      <Comment
-        author={<a>Han Solo</a>}
-        avatar={
-          <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            alt="Han Solo"
-          />
-        }
-        content={
-          <p>
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently.
-          </p>
-        }
-        datetime={
-          <Tooltip title={dayjs().format("YYYY-MM-DD HH:mm:ss")}>
-            <span>{dayjs().format("YYYY-MM-DD HH:mm:ss")}</span>
-          </Tooltip>
-        }
-      />
-      <Comment
-        style={{
-          flexDirection: "row-reverse"
-        }}
-        className={classes.ownMessage}
-        author={<a>Han Solo</a>}
-        avatar={
-          <Avatar
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-            alt="Han Solo"
-          />
-        }
-        content={
-          <p
-            style={{
-              textAlign: "right"
-            }}
-          >
-            We supply a series of design principles, practical patterns and high
-            quality design resources (Sketch and Axure), to help people create
-            their product prototypes beautifully and efficiently.
-          </p>
-        }
-        datetime={
-          <Tooltip title={dayjs().format("YYYY-MM-DD HH:mm:ss")}>
-            <span>{dayjs().format("YYYY-MM-DD HH:mm:ss")}</span>
-          </Tooltip>
-        }
-      />
+      {currentRoomMessage &&
+        currentRoomMessage.map((item, key) => {
+          const out = username === item.username;
+          return (
+            <Comment
+              key={key}
+              className={out && classes.ownMessage}
+              author={<a>{item.username}</a>}
+              avatar={
+                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              }
+              content={
+                <p className={out && classes.outContent}>{item.message}</p>
+              }
+              datetime={
+                <Tooltip
+                  title={dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
+                >
+                  <span>
+                    {dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
+                  </span>
+                </Tooltip>
+              }
+            />
+          );
+        })}
+      <div className={classes.messageEnd} ref={messageEndRef} />
     </div>
   );
 }

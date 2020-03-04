@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./Aside.style";
 import { services } from "../../../services";
 import { setSocketRoom, setCurrentRoom } from "../../../store/socket/action";
-
+import IM from "../../../utils/IM";
 export default function Aside() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -21,16 +21,18 @@ export default function Aside() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    services("room/list")
-      .then(res => {
-        dispatch(setSocketRoom(res.data.rooms));
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+    if (IM.webrtc) {
+      setLoading(true);
+      services("room/list")
+        .then(res => {
+          dispatch(setSocketRoom(res.data.rooms));
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    }
+  }, [IM.webrtc]);
 
   return (
     <Layout.Sider width={260}>

@@ -8,12 +8,6 @@ import IM from "../../../utils/IM";
 
 export default function Chat() {
   const classes = useStyles();
-  React.useEffect(() => {
-    IM.open();
-    return () => {
-      IM.close();
-    };
-  }, []);
   return (
     <Card
       className={classes.chat}

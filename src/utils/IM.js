@@ -1,19 +1,35 @@
 import io from "socket.io-client";
 import { ulid } from "ulid";
+import { message } from "antd";
 import { store } from "../store";
-
+import SimpleWebRtc from "simplewebrtc/out/simplewebrtc-with-adapter.bundle";
+import { updateMessage } from "../store/socket/action";
 class IM {
   constructor() {
     // this.url = props.url;
     this.socket = null;
     this.events = {};
+    this.webrtc = null;
   }
 
   open() {
-    if (this.socket === null) {
-      this.socket = io("http://localhost:8989");
-      this.init();
-    }
+    this.webrtc = new SimpleWebRtc({
+      url: "192.168.31.17:8888",
+      localVideoEl: "video",
+      autoRequestMedia: false,
+      debug: true,
+      detectSpeakingEvents: true,
+      autoAdjustMic: false
+      // media: {
+      //   video: false,
+      //   audio: false
+      // }
+    });
+    this.webrtc.connection.on("message", data => {
+      if (data.type === "chat") {
+        store.dispatch(updateMessage(data.payload));
+      }
+    });
   }
 
   close() {
@@ -32,6 +48,15 @@ class IM {
         userInfo
       })
     );
+  }
+
+  join(roomName) {
+    this.webrtc.joinRoom(roomName, (err, name) => {
+      if (err) {
+        message.error(err);
+      }
+      console.log(name);
+    });
   }
 
   logout() {}
@@ -53,8 +78,9 @@ class IM {
   }
 
   send(data) {
-    this.socket.emit("message", createTextMessage(data));
-    this.socket.emit("login", createTextMessage(data));
+    const message = createTextMessage(data);
+    this.webrtc.sendToAll("chat", message);
+    store.dispatch(updateMessage(message));
   }
 
   on(type, callback) {
@@ -73,11 +99,10 @@ export function createTextMessage(data) {
   return {
     id: ulid(),
     timestamp: Date.now(),
-    flow: "out",
     from: store.getState().userInfo.username,
-    payload: {
-      data
-    }
+    username: store.getState().userInfo.username,
+    message: data,
+    postedOn: new Date().toLocaleString("en-GB")
   };
 }
 
