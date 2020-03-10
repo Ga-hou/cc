@@ -29,12 +29,6 @@ function Auth(props) {
     }
   }, [location.pathname]);
 
-  React.useEffect(() => {
-    if (storageToken) {
-      // history.push("/online");
-    }
-  }, []);
-
   return props.children({
     auth: token || storageToken
   });

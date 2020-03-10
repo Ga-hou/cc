@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Layout, Avatar, Dropdown, Menu } from "antd";
 import useStyles from "./TopBar.style";
@@ -11,7 +11,7 @@ export default function TopBar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  console.log(location);
+  const { userRoles } = useSelector(e => e.userInfo);
   const logout = () => {
     dispatch(delUserInfo());
     history.push("/login");
@@ -35,6 +35,11 @@ export default function TopBar() {
       >
         <Avatar size={50} icon="user" />
       </Dropdown>
+      <div className={classes.userInfo}>
+        <span className={classes.userId}>
+          工号: {userRoles && userRoles.userId}
+        </span>
+      </div>
     </Header>
   );
 }

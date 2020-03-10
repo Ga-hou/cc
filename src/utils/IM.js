@@ -1,8 +1,8 @@
-import io from "socket.io-client";
 import { ulid } from "ulid";
 import { message } from "antd";
 import { store } from "../store";
-import SimpleWebRtc from "simplewebrtc/out/simplewebrtc-with-adapter.bundle";
+import SimpleWebRtc from "./simplewebrtc-with-adapter.bundle";
+// import SimpleWebRtc from "simplewebrtc/out/simplewebrtc-with-adapter.bundle";
 import { updateMessage } from "../store/socket/action";
 class IM {
   constructor() {
@@ -13,11 +13,12 @@ class IM {
   }
 
   open() {
+    console.log("webrtc open");
     this.webrtc = new SimpleWebRtc({
       url: "192.168.31.17:8888",
-      localVideoEl: "video",
+      localVideoEl: "local-video",
       autoRequestMedia: false,
-      debug: true,
+      debug: false,
       detectSpeakingEvents: true,
       autoAdjustMic: false
       // media: {
@@ -33,8 +34,10 @@ class IM {
   }
 
   close() {
-    this.socket.close();
-    this.socket = null;
+    this.webrtc.leaveRoom();
+    this.webrtc.disconnect();
+    this.webrtc = null;
+    console.log("webrtc close");
   }
 
   login() {
@@ -92,6 +95,13 @@ class IM {
 
   off(type, callback) {
     this.events[type].filter(item => item === callback);
+  }
+
+  startLocalVideo() {
+    this.webrtc.startLocalVideo();
+  }
+  stopLocalVideo() {
+    this.webrtc.stopLocalVideo();
   }
 }
 

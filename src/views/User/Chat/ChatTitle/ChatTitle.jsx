@@ -3,8 +3,7 @@ import { Avatar, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
 import useStyles from "./ChatTitle.style";
-import { delSocketRoom } from "../../../../store/socket/action";
-
+import { delSocketRoom, setVideoRoom } from "../../../../store/socket/action";
 export default function Chat() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -12,10 +11,22 @@ export default function Chat() {
   const closeCurrentRoom = () => {
     dispatch(delSocketRoom());
   };
+  const startVideoRoom = () => {
+    dispatch(setVideoRoom());
+  };
   return (
     <div className={classes.chatTitle}>
       <Avatar size="large" icon="user" />
       <div className={classes.roomInfo}>房间: {currentRoom.roomName}</div>
+      <Button
+        className={classes.finishButton}
+        type="primary"
+        shape="round"
+        size="large"
+        onClick={startVideoRoom}
+      >
+        发起视频
+      </Button>
       <Button
         className={classes.finishButton}
         type="danger"

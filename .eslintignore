@@ -4,3 +4,4 @@ build/
 config/
 public/
 scripts/
+src/utils/simplewebrtc-with-adapter.bundle.js

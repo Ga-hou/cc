@@ -2,7 +2,9 @@ import {
   DELSOCKETROOM,
   SETSOCKETROOM,
   SETCURRENTROOM,
-  UPDATEMESSAGE
+  UPDATEMESSAGE,
+  SETVIDEOROOM,
+  STOPVIDEOROOM
 } from "./types";
 import IM from "../../utils/IM";
 export function setSocketRoom(payload) {
@@ -32,6 +34,22 @@ export function setCurrentRoom(payload) {
 export function updateMessage(payload) {
   return {
     type: UPDATEMESSAGE,
+    payload
+  };
+}
+
+export function setVideoRoom(payload) {
+  IM.startLocalVideo();
+  return {
+    type: SETVIDEOROOM,
+    payload
+  };
+}
+
+export function stopVideoRoom(payload) {
+  IM.stopLocalVideo();
+  return {
+    type: STOPVIDEOROOM,
     payload
   };
 }

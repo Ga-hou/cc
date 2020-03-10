@@ -21,10 +21,11 @@ function App() {
           {({ auth }) => {
             return auth ? (
               <Switch>
-                <Route path={"/admin"} component={Admin} />
-                <Route path={"/user"} component={Agent} />
                 <Route path={"/online"} component={OnLine} />
-                <Redirect from={"/"} to={"/user"} />
+                <Route path={"/user"} component={Agent} />
+                <Route path={"/admin"} component={Admin} />
+                <Route path={"/login"} component={Login} />
+                <Redirect from={"/"} to={"/online"} />
               </Switch>
             ) : (
               <Switch>
