@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { UserOutlined } from "@ant-design/icons";
 import { Menu, Avatar, Layout, Spin } from "antd";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
@@ -50,7 +51,7 @@ export default function Aside() {
                 className={classes.menuItem}
                 onClick={() => setChatRoom(room)}
               >
-                <Avatar icon="user" size={30} />
+                <Avatar icon={<UserOutlined />} size={30} />
                 <span>
                   {room.modifyDate &&
                     (dayjs(room.modifyDate).isAfter(today)

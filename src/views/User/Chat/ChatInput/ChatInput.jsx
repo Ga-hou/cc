@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { MessageOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import useStyles from "./ChatInput.style";
 import IM from "../../../../utils/IM";
@@ -27,7 +28,7 @@ export default function ChatInput() {
       <Button
         type="primary"
         size="large"
-        icon="message"
+        icon={<MessageOutlined />}
         className={classes.sendButton}
       >
         发送

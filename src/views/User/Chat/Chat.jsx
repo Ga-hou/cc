@@ -4,7 +4,6 @@ import useStyles from "./Chat.style";
 import ChatTitle from "./ChatTitle/ChatTitle";
 import ChatInput from "./ChatInput/ChatInput";
 import ChatMessageList from "./ChatMessageList/ChatMessageList";
-import IM from "../../../utils/IM";
 
 export default function Chat() {
   const classes = useStyles();

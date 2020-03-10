@@ -1,4 +1,5 @@
 import React from "react";
+import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,7 +17,7 @@ export default function Chat() {
   };
   return (
     <div className={classes.chatTitle}>
-      <Avatar size="large" icon="user" />
+      <Avatar size="large" icon={<UserOutlined />} />
       <div className={classes.roomInfo}>房间: {currentRoom.roomName}</div>
       <Button
         className={classes.finishButton}

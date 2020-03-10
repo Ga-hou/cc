@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
 import { Layout, Avatar, Dropdown, Menu } from "antd";
 import useStyles from "./TopBar.style";
 const { Header } = Layout;
@@ -33,7 +34,7 @@ export default function TopBar() {
           </Menu>
         }
       >
-        <Avatar size={50} icon="user" />
+        <Avatar size={50} icon={<UserOutlined />} />
       </Dropdown>
       <div className={classes.userInfo}>
         <span className={classes.userId}>
