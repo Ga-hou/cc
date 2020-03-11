@@ -34,7 +34,7 @@ function Login() {
         <Card className={classes.card}>
           <Form onFinish={requestLogin} className="login-form">
             <Form.Item
-              name={"username"}
+              name={"account"}
               rules={[{ required: true, message: "请输入用户名!" }]}
             >
               <Input

@@ -1,7 +1,9 @@
 import { AUTHUSERINFO, DELUSERINFO, SETUSERINFO } from "./types";
 const initialState = {
+  id: null,
+  account: "",
   username: "",
-  userRoles: []
+  roleId: null
 };
 
 export function userInfoReducer(state = initialState, action) {

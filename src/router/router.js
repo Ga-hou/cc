@@ -5,7 +5,7 @@ export const routes = [
   {
     layout: "/admin",
     path: "/user",
-    name: "user",
+    name: "客服管理",
     component: User
   },
   {

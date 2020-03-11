@@ -12,7 +12,7 @@ export default function TopBar() {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-  const { userRoles } = useSelector(e => e.userInfo);
+  const { id } = useSelector(e => e.userInfo);
   const logout = () => {
     dispatch(delUserInfo());
     history.push("/login");
@@ -37,9 +37,7 @@ export default function TopBar() {
         <Avatar size={50} icon={<UserOutlined />} />
       </Dropdown>
       <div className={classes.userInfo}>
-        <span className={classes.userId}>
-          工号: {userRoles && userRoles.userId}
-        </span>
+        <span className={classes.userId}>工号: {id}</span>
       </div>
     </Header>
   );
