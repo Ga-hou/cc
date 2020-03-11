@@ -4,14 +4,14 @@ import Dashboard from "../views/Admin/Dashboard/Dashboard";
 export const routes = [
   {
     layout: "/admin",
-    path: "/user",
-    name: "客服管理",
-    component: User
+    path: "/dashboard",
+    name: "数据概览",
+    component: Dashboard
   },
   {
     layout: "/admin",
-    path: "/dashboard",
-    name: "dashboard",
-    component: Dashboard
+    path: "/user",
+    name: "客服管理",
+    component: User
   }
 ];
