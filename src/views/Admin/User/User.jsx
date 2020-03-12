@@ -3,7 +3,7 @@ import { Table, message, Button, Modal, Form, Input, Radio } from "antd";
 import ResetPassword from "./ResetPassword";
 import { services } from "../../../services";
 import { userRoleMap } from "../../../utils/enums";
-import useStyles from "./User.style";
+import useStyles from "./style";
 const { Column } = Table;
 
 export default function User() {
@@ -83,7 +83,11 @@ export default function User() {
   }, []);
   return (
     <div>
-      <Button type={"primary"} onClick={onHandleAddUser}>
+      <Button
+        type={"primary"}
+        onClick={onHandleAddUser}
+        className={classes.addAction}
+      >
         添加客服
       </Button>
       <Table loading={loading} dataSource={userList}>

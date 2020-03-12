@@ -1,19 +1,12 @@
 import React from "react";
-import {
-  Button,
-  Table,
-  Modal,
-  Form,
-  Input,
-  Select,
-  Checkbox,
-  message
-} from "antd";
+import { Button, Modal, Form, Input, Select, message } from "antd";
 import { services } from "../../../services";
+import useStyles from "./style";
 
 const { Option } = Select;
 
 export default function AddUserGroup(props) {
+  const classes = useStyles();
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalLoading, setModalLoading] = React.useState(false);
   const [userListLoading, setUserListLoading] = React.useState(false);
@@ -61,7 +54,11 @@ export default function AddUserGroup(props) {
 
   return (
     <>
-      <Button type={"primary"} onClick={onHandleShowModal}>
+      <Button
+        type={"primary"}
+        onClick={onHandleShowModal}
+        className={classes.addAction}
+      >
         添加客服组
       </Button>
       <Modal
