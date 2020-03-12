@@ -1,5 +1,7 @@
 import User from "../views/Admin/User/User";
 import Dashboard from "../views/Admin/Dashboard/Dashboard";
+import UserGroup from "../views/Admin/UserGroup/UserGroup";
+import UserGroupRouter from "../views/Admin/UserGroup/UserGroupRouter";
 
 export const routes = [
   {
@@ -13,5 +15,11 @@ export const routes = [
     path: "/user",
     name: "客服管理",
     component: User
+  },
+  {
+    layout: "/admin",
+    path: "/user-group",
+    name: "客服组管理",
+    component: UserGroupRouter
   }
 ];

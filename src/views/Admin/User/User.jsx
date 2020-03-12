@@ -3,9 +3,11 @@ import { Table, message, Button, Modal, Form, Input, Radio } from "antd";
 import ResetPassword from "./ResetPassword";
 import { services } from "../../../services";
 import { userRoleMap } from "../../../utils/enums";
+import useStyles from "./User.style";
 const { Column } = Table;
 
 export default function User() {
+  const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const [modalLoading, setModalLoading] = React.useState(false);
   const [userList, setUserList] = React.useState(null);
@@ -57,7 +59,7 @@ export default function User() {
         onHandleHideModal();
         getUserList();
       })
-      .catch(e => {
+      .catch(() => {
         setModalLoading(false);
       });
   };
@@ -140,7 +142,7 @@ export default function User() {
               }
             ]}
           >
-            <Input size={"large"} disabled={currentUser} />
+            <Input className={classes.formInput} disabled={currentUser} />
           </Form.Item>
           <Form.Item
             label={"姓名"}
@@ -152,7 +154,7 @@ export default function User() {
               }
             ]}
           >
-            <Input size={"large"} />
+            <Input className={classes.formInput} />
           </Form.Item>
           <Form.Item
             label={"用户类型"}
