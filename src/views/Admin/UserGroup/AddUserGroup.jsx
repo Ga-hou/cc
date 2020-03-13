@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Modal, Form, Input, Select, message } from "antd";
 import { services } from "../../../services";
-import useStyles from "./style";
+import useStyles, { style } from "./style";
 
 const { Option } = Select;
 
@@ -63,7 +63,7 @@ export default function AddUserGroup(props) {
       </Button>
       <Modal
         forceRender
-        width={360}
+        width={420}
         visible={modalVisible}
         confirmLoading={modalLoading}
         title={"添加客服组"}
@@ -74,7 +74,7 @@ export default function AddUserGroup(props) {
           form={form}
           size={"middle"}
           labelCol={{
-            span: 4
+            span: 6
           }}
           onFinish={onHandleSubmit}
         >
@@ -88,13 +88,11 @@ export default function AddUserGroup(props) {
               }
             ]}
           >
-            <Input size={"middle"} />
+            <Input className={classes.formInput} />
           </Form.Item>
           <Form.Item label={"用户"} name={"userIdList"}>
             <Select
-              style={{
-                width: 170
-              }}
+              style={style.formSelect}
               allowClear
               mode={"multiple"}
               size={"middle"}

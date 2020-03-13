@@ -1,16 +1,27 @@
 import React from "react";
-import { Table, message, Button, Modal, Form, Input, Radio } from "antd";
+import {
+  Table,
+  message,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Radio,
+  Select
+} from "antd";
 import ResetPassword from "./ResetPassword";
 import { services } from "../../../services";
 import { userRoleMap } from "../../../utils/enums";
-import useStyles from "./style";
+import useStyles, { style } from "./style";
 const { Column } = Table;
 
 export default function User() {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const [modalLoading, setModalLoading] = React.useState(false);
+  const [selectLoading, setSelectLoading] = React.useState(false);
   const [userList, setUserList] = React.useState(null);
+  const [groupList, setGroupList] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState(null);
   const [visible, setVisible] = React.useState(false);
   const [form] = Form.useForm();
@@ -28,7 +39,8 @@ export default function User() {
     form.setFieldsValue({
       account: record.account,
       username: record.username,
-      roleId: record.roleId
+      roleId: record.roleId,
+      groupIdList: record.userGroup?.map(item => item.groupId)
     });
     setCurrentUser(record);
     onHandleShowModal();
@@ -50,6 +62,19 @@ export default function User() {
       setUserList(e.data.userList);
     });
   };
+
+  const getGroupUser = () => {
+    setSelectLoading(true);
+    services("group/list")
+      .then(e => {
+        setGroupList(e.data.groupList);
+        setSelectLoading(false);
+      })
+      .catch(() => {
+        setSelectLoading(false);
+      });
+  };
+
   const onRequestUpdateUserInfo = values => {
     setModalLoading(true);
     services("user/update", values)
@@ -81,6 +106,13 @@ export default function User() {
   React.useEffect(() => {
     getUserList();
   }, []);
+
+  React.useEffect(() => {
+    if (visible) {
+      getGroupUser();
+    }
+  }, [visible]);
+
   return (
     <div>
       <Button
@@ -99,6 +131,12 @@ export default function User() {
           dataIndex={"roleId"}
           key={"roleId"}
           render={item => userRoleMap[item]}
+        />
+        <Column
+          title={"所属客服组"}
+          dataIndex={"userGroup"}
+          key={"userGroup"}
+          render={item => item.map(item => item.groupName).join(",")}
         />
         <Column
           title={"操作"}
@@ -127,14 +165,20 @@ export default function User() {
         visible={visible}
         confirmLoading={modalLoading}
         title={currentUser ? "编辑客服" : "添加客服"}
-        width={360}
+        width={420}
         onCancel={onHandleHideModal}
         onOk={() => form.submit()}
         okButtonProps={{
           htmlType: "submit"
         }}
       >
-        <Form form={form} onFinish={onHandleSubmit}>
+        <Form
+          form={form}
+          onFinish={onHandleSubmit}
+          labelCol={{
+            span: 6
+          }}
+        >
           <Form.Item
             label={"邮箱"}
             name={"account"}
@@ -159,6 +203,21 @@ export default function User() {
             ]}
           >
             <Input className={classes.formInput} />
+          </Form.Item>
+          <Form.Item label={"客服组"} name={"groupIdList"}>
+            <Select
+              style={style.formSelect}
+              mode={"multiple"}
+              size={"middle"}
+              allowClear
+              loading={selectLoading}
+            >
+              {groupList?.map(item => (
+                <Select.Option value={item.groupId}>
+                  {item.groupName}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label={"用户类型"}

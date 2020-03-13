@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Modal, Button, Form, Select, Input, message } from "antd";
-import useStyles from "./style";
+import useStyles, { style } from "./style";
 import { services } from "../../../services";
 
 export default function AddGroupUser(props) {
@@ -67,7 +67,7 @@ export default function AddGroupUser(props) {
       <Modal
         forceRender
         confirmLoading={loading}
-        width={360}
+        width={420}
         title={"修改客服组"}
         visible={modalVisible}
         onOk={() => form.submit()}
@@ -75,7 +75,7 @@ export default function AddGroupUser(props) {
       >
         <Form
           labelCol={{
-            span: 4
+            span: 6
           }}
           size={"middle"}
           form={form}
@@ -86,9 +86,7 @@ export default function AddGroupUser(props) {
           </Form.Item>
           <Form.Item label={"客服"} name={"userIdList"}>
             <Select
-              style={{
-                width: 240
-              }}
+              style={style.formSelect}
               mode={"multiple"}
               size={"middle"}
               allowClear

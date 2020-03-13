@@ -8,9 +8,15 @@ export default createUseStyles({
     width: 240
   },
   formSelect: {
-    width: 170
+    width: 240
   },
   addAction: {
     marginBottom: 20
   }
 });
+
+export const style = {
+  formSelect: {
+    width: 240
+  }
+};
