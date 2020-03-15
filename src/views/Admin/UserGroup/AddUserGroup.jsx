@@ -34,7 +34,7 @@ export default function AddUserGroup(props) {
         message.success(res.data.msg);
         props?.request();
       })
-      .catch(e => {
+      .catch(() => {
         setModalLoading(false);
       });
   };

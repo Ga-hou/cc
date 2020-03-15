@@ -1,13 +1,12 @@
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { PageHeader, Card, Table, Button } from "antd";
+import { PageHeader, Card, Table } from "antd";
 import { services } from "../../../services";
 import { userRoleMap } from "../../../utils/enums";
 import AddGroupUser from "./AddGroupUser";
-import useStyles from "./style";
 const { Column } = Table;
+
 export default function Group() {
-  const classes = useStyles();
   const history = useHistory();
   const { groupId } = useParams();
   const [title, setTitle] = React.useState(null);
@@ -50,7 +49,7 @@ export default function Group() {
             title={"用户类型"}
             dataIndex={"roleId"}
             key={"roleId"}
-            render={(item, record) => {
+            render={item => {
               return userRoleMap[item];
             }}
           />

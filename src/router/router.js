@@ -1,6 +1,5 @@
 import User from "../views/Admin/User/User";
 import Dashboard from "../views/Admin/Dashboard/Dashboard";
-import UserGroup from "../views/Admin/UserGroup/UserGroup";
 import UserGroupRouter from "../views/Admin/UserGroup/UserGroupRouter";
 
 export const routes = [
