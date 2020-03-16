@@ -9,12 +9,16 @@ export default function ChatInput() {
   const input = useRef(null);
   const handleKeyDown = e => {
     if (e.keyCode === 13) {
-      if (getContent(input.current.childNodes) !== "") {
-        IM.send(getContent(input.current.childNodes));
-      }
       e.preventDefault();
-      input.current.innerHTML = "";
+      onHandleSend();
     }
+  };
+
+  const onHandleSend = () => {
+    if (getContent(input.current.childNodes) !== "") {
+      IM.send(getContent(input.current.childNodes));
+    }
+    input.current.innerHTML = "";
   };
 
   return (
@@ -30,6 +34,7 @@ export default function ChatInput() {
         size="large"
         icon={<MessageOutlined />}
         className={classes.sendButton}
+        onClick={onHandleSend}
       >
         发送
       </Button>
