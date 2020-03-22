@@ -10,13 +10,24 @@ const { Content } = Layout;
 
 const switchRoutes = (
   <Switch>
-    {routes.map((prop, key) => {
+    {routes.map(prop => {
       if (prop.layout === "/admin") {
+        if (prop.children) {
+          return prop.children.map(item => {
+            return (
+              <Route
+                path={prop.layout + item.path}
+                component={item.component}
+                key={item.path}
+              />
+            );
+          });
+        }
         return (
           <Route
             path={prop.layout + prop.path}
             component={prop.component}
-            key={key}
+            key={prop.path}
           />
         );
       }

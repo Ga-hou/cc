@@ -20,20 +20,17 @@ export default function Sidebar(props) {
   }, [props.routes]);
 
   const links = (
-    <Menu
-      mode="vertical"
-      selectedKeys={activeRouter ? [activeRouter.path] : []}
-    >
+    <Menu mode="inline" selectedKeys={activeRouter ? [activeRouter.path] : []}>
       {props.routes.map(prop => {
         return prop.children ? (
           <SubMenu key={prop.name} title={prop.name}>
             {prop.children?.map(item => {
               return (
                 <Menu.Item
-                  key={prop.path}
+                  key={item.path}
                   onClick={() => {
-                    history.push(prop.layout + prop.path);
-                    setActiveRouter(prop);
+                    history.push(prop.layout + item.path);
+                    setActiveRouter(item);
                   }}
                 >
                   {item.name}

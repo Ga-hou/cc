@@ -18,6 +18,7 @@ export default function Online() {
     services("/user/profile").then(res => {
       dispatch(
         setUserInfo({
+          id: res.data.user.id,
           account: res.data.user.account,
           username: res.data.user.username,
           roleId: res.data.user.roleId

@@ -3,15 +3,16 @@ import { Layout, Empty } from "antd";
 import { useSelector } from "react-redux";
 import useStyles from "./WorkBench.style";
 import Chat from "../Chat/Chat";
-import IM from "../../../utils/IM";
+import AgentSocket from "../../../utils/socket";
+import IM from "../IM/IM";
 const { Content } = Layout;
 export default function WorkBench() {
   const classes = useStyles();
   const { currentRoom } = useSelector(e => e.socket);
   React.useEffect(() => {
-    IM.open();
+    AgentSocket.open();
     return () => {
-      IM.close();
+      AgentSocket.close();
     };
   }, []);
   return (
@@ -25,6 +26,7 @@ export default function WorkBench() {
         ) : (
           <Chat />
         )}
+        <IM />
       </Content>
     </Layout>
   );

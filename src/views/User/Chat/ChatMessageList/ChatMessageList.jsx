@@ -27,32 +27,31 @@ export default function ChatMessageList() {
 
   return (
     <div className={classes.chatMessageList}>
-      {currentRoomMessage &&
-        currentRoomMessage.map((item, key) => {
-          const out = username === item.username;
-          return (
-            <Comment
-              key={key}
-              className={out && classes.ownMessage}
-              author={<a>{item.username}</a>}
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-              content={
-                <p className={out && classes.outContent}>{item.message}</p>
-              }
-              datetime={
-                <Tooltip
-                  title={dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
-                >
-                  <span>
-                    {dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
-                  </span>
-                </Tooltip>
-              }
-            />
-          );
-        })}
+      {currentRoomMessage?.map((item, key) => {
+        const out = username === item.username;
+        return (
+          <Comment
+            key={key}
+            className={out && classes.ownMessage}
+            author={<a>{item.username}</a>}
+            avatar={
+              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            }
+            content={
+              <p className={out && classes.outContent}>{item.message}</p>
+            }
+            datetime={
+              <Tooltip
+                title={dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
+              >
+                <span>
+                  {dayjs(item.postedOn).format("YYYY-MM-DD HH:mm:ss")}
+                </span>
+              </Tooltip>
+            }
+          />
+        );
+      })}
       <div className={classes.messageEnd} ref={messageEndRef} />
     </div>
   );

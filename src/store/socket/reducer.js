@@ -4,14 +4,16 @@ import {
   SETSOCKETROOM,
   SETVIDEOROOM,
   STOPVIDEOROOM,
-  UPDATEMESSAGE
+  UPDATEMESSAGE,
+  SETLOADING
 } from "./types";
 
 const initialState = {
   rooms: [],
   currentRoom: null,
   currentRoomMessage: [],
-  videoRoom: null
+  videoRoom: null,
+  loading: true
 };
 
 export function socketReducer(state = initialState, action) {
@@ -31,6 +33,9 @@ export function socketReducer(state = initialState, action) {
       return Object.assign({}, state);
     case STOPVIDEOROOM:
       state.videoRoom = null;
+      return Object.assign({}, state);
+    case SETLOADING:
+      state.loading = action.payload;
       return Object.assign({}, state);
     case DELSOCKETROOM:
     default:

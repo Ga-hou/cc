@@ -4,9 +4,10 @@ import {
   SETCURRENTROOM,
   UPDATEMESSAGE,
   SETVIDEOROOM,
-  STOPVIDEOROOM
+  STOPVIDEOROOM,
+  SETLOADING
 } from "./types";
-import IM from "../../utils/IM";
+import IM from "../../utils/socket";
 export function setSocketRoom(payload) {
   payload.forEach(room => {
     IM.join(room.roomName);
@@ -50,6 +51,13 @@ export function stopVideoRoom(payload) {
   IM.stopLocalVideo();
   return {
     type: STOPVIDEOROOM,
+    payload
+  };
+}
+
+export function setLoading(payload) {
+  return {
+    type: SETLOADING,
     payload
   };
 }

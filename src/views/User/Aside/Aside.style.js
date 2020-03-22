@@ -18,5 +18,9 @@ export default createUseStyles({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)"
+  },
+  userIcon: {
+    fontSize: "24px !important",
+    marginRight: "0 !important"
   }
 });
