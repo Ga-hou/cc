@@ -6,7 +6,8 @@ import SimpleWebRtc from "./simplewebrtc-with-adapter.bundle";
 import {
   setLoading,
   setSocketRoom,
-  updateMessage
+  updateMessage,
+  addSocketRoom
 } from "../store/socket/action";
 import { delUserInfo } from "../store/userInfo/action";
 
@@ -52,14 +53,15 @@ class Socket {
   logout() {}
 
   init() {
-    this.socket.on("event", socket => {
-      console.log("socket receive event", socket);
-      if (this.events["event"] instanceof Array) {
-        this.events["event"].forEach(item => {
-          if (typeof item === "function") {
-            item(socket);
-          }
-        });
+    this.socket.connection.on("event", event => {
+      console.log("socket receive event", event);
+      if (event.payload.type === 1) {
+        store.dispatch(
+          addSocketRoom({
+            ...event.payload.room,
+            type: "call"
+          })
+        );
       }
     });
     this.socket.on("connectionReady", () => {
