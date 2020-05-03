@@ -7,10 +7,18 @@ import {
   STOPVIDEOROOM,
   SETLOADING,
   ADDSOCKETROOM,
-  UPDATESOCKETROOM
+  UPDATESOCKETROOM,
+  RESETSOCKETROOM
 } from "./types";
 import IM from "../../utils/AgentSocket";
 import AgentSocket from "../../utils/AgentSocket";
+
+export function resetSocketRoom() {
+  return {
+    type: RESETSOCKETROOM
+  };
+}
+
 export function setSocketRoom(payload) {
   payload.forEach(room => {
     IM.join(room.roomName);

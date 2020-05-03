@@ -7,7 +7,8 @@ import {
   UPDATEMESSAGE,
   SETLOADING,
   ADDSOCKETROOM,
-  UPDATESOCKETROOM
+  UPDATESOCKETROOM,
+  RESETSOCKETROOM
 } from "./types";
 
 const initialState = {
@@ -20,6 +21,8 @@ const initialState = {
 
 export function socketReducer(state = initialState, action) {
   switch (action.type) {
+    case RESETSOCKETROOM:
+      return initialState;
     case SETSOCKETROOM:
       state.rooms = action.payload;
       state.currentRoomMessage = [];
@@ -54,6 +57,11 @@ export function socketReducer(state = initialState, action) {
       state.loading = action.payload;
       return Object.assign({}, state);
     case DELSOCKETROOM:
+      state.rooms = state.rooms.filter(
+        room => room.roomId !== state.currentRoom.roomId
+      );
+      state.currentRoom = null;
+      return Object.assign({}, state);
     default:
       return state;
   }

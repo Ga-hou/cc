@@ -7,6 +7,9 @@ import getContent from "../Chat/ChatInput/getContent";
 import UserSocket from "./UserSocket";
 import * as MessageUtil from "../../../utils/MessageUtil";
 import Video from "./Video";
+import userAvatar from "../../../assets/tim.png";
+import avatar from "../../../assets/head.png";
+
 export default function IM() {
   const classes = useStyles();
   const input = useRef(null);
@@ -75,9 +78,7 @@ export default function IM() {
                       key={key}
                       className={out ? classes.ownMessage : ""}
                       author={<a>{item.from}</a>}
-                      avatar={
-                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                      }
+                      avatar={<Avatar src={out ? userAvatar : avatar} />}
                       content={
                         <p className={out ? classes.outContent : ""}>
                           {item.payload.text}

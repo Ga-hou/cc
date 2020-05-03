@@ -7,7 +7,8 @@ import {
   setLoading,
   setSocketRoom,
   updateMessage,
-  addSocketRoom
+  addSocketRoom,
+  resetSocketRoom
 } from "../store/socket/action";
 import { delUserInfo } from "../store/userInfo/action";
 
@@ -39,6 +40,7 @@ class AgentSocket {
     this.socket.leaveRoom();
     this.socket.disconnect();
     this.socket = null;
+    store.dispatch(resetSocketRoom());
     console.log("webrtc close");
   }
 
