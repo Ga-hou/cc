@@ -168,6 +168,8 @@ export default function User() {
         width={420}
         onCancel={onHandleHideModal}
         onOk={() => form.submit()}
+        okText={"确定"}
+        cancelText={"取消"}
         okButtonProps={{
           htmlType: "submit"
         }}

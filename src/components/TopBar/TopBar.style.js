@@ -3,9 +3,12 @@ import { createUseStyles } from "react-jss";
 export default createUseStyles({
   TopBar: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     alignItems: "center",
-    background: "rgba(0, 0, 0, .75)"
+    background: "#101B2A"
+  },
+  title: {
+    color: "#fff !important"
   },
   userInfo: {
     height: "100%",

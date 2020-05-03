@@ -12,7 +12,7 @@ export default function ResetPassword(id) {
     onOk() {
       return new Promise((resolve, reject) => {
         services("user/reset", {
-          id: id
+          id
         })
           .then(res => {
             message.success(res.data.msg);
@@ -23,6 +23,8 @@ export default function ResetPassword(id) {
           });
       });
     },
-    onCancel() {}
+    onCancel() {},
+    okText: "确定",
+    cancelText: "取消"
   });
 }

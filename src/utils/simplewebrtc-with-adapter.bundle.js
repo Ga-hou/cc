@@ -30225,7 +30225,7 @@ the event name as the first argument.
           SimpleWebRTC.prototype.joinRoom = function(name, cb) {
             var self = this;
             this.roomName = name;
-            this.connection.emit("join", name, function(err, roomDescription) {
+            this.connection.emit("join", name, function([err, roomDescription]) {
               console.log("join CB", err, roomDescription);
               if (err) {
                 self.emit("error", err);

@@ -11,7 +11,7 @@ export default function Agent() {
   return (
     <BaseLayout>
       <TopBar />
-      <Spin size={"large"} spinning={loading}>
+      <Spin size={"large"} spinning={false}>
         <Layout>
           <Aside />
           <WorkBench />

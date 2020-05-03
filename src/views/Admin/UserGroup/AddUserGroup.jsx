@@ -69,6 +69,8 @@ export default function AddUserGroup(props) {
         title={"添加客服组"}
         onOk={() => form.submit()}
         onCancel={onHandleHideModal}
+        okText={"确定"}
+        cancelText={"取消"}
       >
         <Form
           form={form}

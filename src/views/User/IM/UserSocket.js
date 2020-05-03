@@ -1,5 +1,6 @@
 import SimpleWebRtc from "../../../utils/simplewebrtc-with-adapter.bundle";
 import * as MessageUtil from "../../../utils/MessageUtil";
+import { ulid } from "ulid";
 class UserSocket {
   constructor() {
     this.socket = null;
@@ -16,73 +17,104 @@ class UserSocket {
 
   open() {
     this.socket = new SimpleWebRtc({
-      url: "http://localhost:8082/user"
+      url: "http://localhost:8082",
+      localVideoEl: "im-local-video",
+      debug: false,
+      remoteVideosEl: "im-remote-video",
+      autoRequestMedia: true,
+      detectSpeakingEvents: true,
+      autoAdjustMic: true,
+      media: {
+        video: true,
+        audio: true
+      }
     });
     this.init();
   }
 
   close() {
+    this.socket.leaveRoom();
     this.socket.disconnect();
     this.socket = null;
     this.events = {};
   }
 
   init() {
-    console.log(this.socket);
-    this.socket.on("connectionReady", () => {
-      this.login();
-    });
+    this.socket.on("connectionReady", sessionId => this.login(sessionId));
     this.socket.connection.on("login", () => this.handleLogin());
-    this.socket.connection.on("create", data => this.handleCreate(data));
     this.socket.connection.on("message", data => this.handleMessage(data));
+    this.socket.connection.on("create", data => this.handleCreate(data));
+    this.socket.on("localStream", () => {
+      console.error("localStream");
+    });
+    this.socket.on("videoAdded", (video, peer) => {
+      document.getElementById("remote-video-wrapper").appendChild(video);
+    });
   }
 
-  login() {
-    console.log("user socket login");
-    this.socket.connection.emit("login");
+  /**
+   * 创建房间
+   */
+  login(sessionId) {
+    this.id = sessionId;
+    console.warn("用户登录并创建房间", this.id);
+    this.socket.createRoom(
+      this.createTextMessage({
+        text: this.id
+      })
+    );
   }
 
   send(data) {
-    const message = this.createTextMessage(data);
-    this.socket.connection.emit("message", message);
+    console.warn("用户ID", this.id);
+    const message = this.createTextMessage({
+      text: data
+    });
+    this.socket.connection.emit("system", message);
+    this.socket.sendToAll("chat", message);
     return message;
   }
 
   handleLogin() {
-    const id = this.socket.connection.getSessionid();
-    this.socket.createRoom(id);
-  }
-
-  handleCreate() {
     this.handleTriggerWelcome();
   }
 
-  handleMessage(message) {
+  handleMessage(data) {
     if (this.events["message"] instanceof Array) {
       this.events["message"].forEach(cb => {
-        if (typeof cb === "function") {
-          cb(message);
+        if (typeof cb === "function" && data.type === "chat") {
+          cb(data.payload);
         }
       });
     }
   }
 
   handleTriggerWelcome() {
-    this.socket.connection.emit("system", {
-      type: 1
-    });
+    this.socket.connection.emit(
+      "system",
+      this.createTextMessage({
+        type: 1
+      })
+    );
   }
 
   // socket.io
   getConnection() {
-    return this.socket.connection;
+    return this.socket.connection.connection;
   }
 
-  createTextMessage(data) {
-    console.log(this);
-    return MessageUtil.createTextMessage(this.getConnection().id, {
-      text: data
-    });
+  createTextMessage(payload) {
+    return MessageUtil.createTextMessage(
+      this.getConnection().id,
+      "user",
+      payload,
+      "chat"
+    );
+  }
+
+  handleCreate(data) {
+    console.log("用户创建房间成功", data);
+    this.handleTriggerWelcome();
   }
 }
 

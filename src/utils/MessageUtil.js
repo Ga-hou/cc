@@ -1,20 +1,21 @@
 import { ulid } from "ulid";
 
-export function createTextMessage(username, data) {
+export function createTextMessage(username, role, data, type) {
   return {
     id: ulid(),
     timestamp: Date.now(),
     flow: "out",
     from: username,
-    username,
     payload: data,
-    postedOn: new Date().toLocaleString("en-GB")
+    username,
+    role,
+    type
   };
 }
 
-export function scrollToBottom() {
+export function scrollToBottom(id) {
   setTimeout(() => {
-    const messageWrapper = document.getElementById("messageWrapper");
+    const messageWrapper = document.getElementById(id);
     if (messageWrapper) messageWrapper.scrollTop = messageWrapper.scrollHeight;
   }, 0);
 }

@@ -31,7 +31,7 @@ function Login() {
   return (
     <Row className={classes.rowWrapper}>
       <Col offset={8} span={8}>
-        <Card className={classes.card}>
+        <Card className={classes.card} title={"基于WebRTC的客服系统"}>
           <Form onFinish={requestLogin} className="login-form">
             <Form.Item
               name={"account"}

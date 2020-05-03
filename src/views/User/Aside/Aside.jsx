@@ -1,21 +1,36 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { UserOutlined } from "@ant-design/icons";
-import { Menu, Avatar, Layout } from "antd";
-import dayjs from "dayjs";
+import { Menu, Avatar, Layout, Button } from "antd";
+// import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./Aside.style";
-import { setCurrentRoom } from "../../../store/socket/action";
+import { setCurrentRoom, updateSocketRoom } from "../../../store/socket/action";
+import AgentSocket from "../../../utils/AgentSocket";
 export default function Aside() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { rooms } = useSelector(e => e.socket);
 
-  const today = useMemo(() => {
-    return dayjs().startOf("day");
-  }, []);
+  // const today = useMemo(() => {
+  //   return dayjs().startOf("day");
+  // }, []);
 
   const setChatRoom = room => {
     dispatch(setCurrentRoom(room));
+  };
+
+  const joinChatRoom = (e, room) => {
+    AgentSocket.join(room.roomId).then(roomName => {
+      dispatch(
+        updateSocketRoom({
+          roomName,
+          data: {
+            type: "chat"
+          }
+        })
+      );
+      setChatRoom(room);
+    });
   };
 
   return (
@@ -26,19 +41,21 @@ export default function Aside() {
             <Menu.Item
               key={key}
               className={classes.menuItem}
-              onClick={() => setChatRoom(room)}
+              onClick={() => {
+                if (room.type === "call") return;
+                setChatRoom(room);
+              }}
             >
               <Avatar
                 size={"large"}
                 shape={"square"}
                 icon={<UserOutlined className={classes.userIcon} />}
               />
-              <span>
-                {room.modifyDate &&
-                  (dayjs(room.modifyDate).isAfter(today)
-                    ? dayjs(room.modifyDate).format("YYYY-MM-DD HH:mm:ss")
-                    : dayjs(room.modifyDate).format("hh:mm:ss"))}
-              </span>
+              {room.type === "call" && (
+                <Button type={"primary"} onClick={e => joinChatRoom(e, room)}>
+                  接听
+                </Button>
+              )}
             </Menu.Item>
           );
         })}

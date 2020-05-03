@@ -5,7 +5,9 @@ import {
   SETVIDEOROOM,
   STOPVIDEOROOM,
   UPDATEMESSAGE,
-  SETLOADING
+  SETLOADING,
+  ADDSOCKETROOM,
+  UPDATESOCKETROOM
 } from "./types";
 
 const initialState = {
@@ -21,6 +23,20 @@ export function socketReducer(state = initialState, action) {
     case SETSOCKETROOM:
       state.rooms = action.payload;
       state.currentRoomMessage = [];
+      return Object.assign({}, state);
+    case ADDSOCKETROOM:
+      state.rooms.push(action.payload);
+      return Object.assign({}, state);
+    case UPDATESOCKETROOM:
+      state.rooms.map(item => {
+        if (
+          action.payload.roomName &&
+          action.payload.roomName === item.roomName
+        ) {
+          return Object.assign(item, action.payload.data);
+        }
+        return item;
+      });
       return Object.assign({}, state);
     case SETCURRENTROOM:
       state.currentRoom = action.payload;

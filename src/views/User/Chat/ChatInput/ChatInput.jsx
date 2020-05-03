@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { MessageOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import useStyles from "./ChatInput.style";
-import IM from "../../../../utils/socket";
+import IM from "../../../../utils/AgentSocket";
 import getContent from "./getContent";
 export default function ChatInput() {
   const classes = useStyles();

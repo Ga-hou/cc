@@ -2,6 +2,7 @@ import { createUseStyles } from "react-jss";
 
 export default createUseStyles({
   popover: {
+    position: "relative",
     padding: 0
   },
   imIcon: {

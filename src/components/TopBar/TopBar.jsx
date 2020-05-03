@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import { Layout, Avatar, Dropdown, Menu } from "antd";
+import { Layout, Avatar, Dropdown, Menu, Typography } from "antd";
 import useStyles from "./TopBar.style";
 const { Header } = Layout;
 import { delUserInfo } from "../../store/userInfo/action";
@@ -24,6 +24,9 @@ export default function TopBar() {
 
   return (
     <Header className={classes.TopBar}>
+      <Typography.Title level={3} type="warning" className={classes.title}>
+        基于WebRTC的客服系统
+      </Typography.Title>
       <Dropdown
         overlay={
           <Menu>
@@ -36,9 +39,6 @@ export default function TopBar() {
       >
         <Avatar size={50} icon={<UserOutlined />} />
       </Dropdown>
-      <div className={classes.userInfo}>
-        <span className={classes.userId}>工号: {id}</span>
-      </div>
     </Header>
   );
 }

@@ -5,9 +5,12 @@ import {
   UPDATEMESSAGE,
   SETVIDEOROOM,
   STOPVIDEOROOM,
-  SETLOADING
+  SETLOADING,
+  ADDSOCKETROOM,
+  UPDATESOCKETROOM
 } from "./types";
-import IM from "../../utils/socket";
+import IM from "../../utils/AgentSocket";
+import AgentSocket from "../../utils/AgentSocket";
 export function setSocketRoom(payload) {
   payload.forEach(room => {
     IM.join(room.roomName);
@@ -18,7 +21,15 @@ export function setSocketRoom(payload) {
   };
 }
 
+export function addSocketRoom(payload) {
+  return {
+    type: ADDSOCKETROOM,
+    payload
+  };
+}
+
 export function delSocketRoom(payload) {
+  AgentSocket.leave();
   return {
     type: DELSOCKETROOM,
     payload
@@ -28,6 +39,13 @@ export function delSocketRoom(payload) {
 export function setCurrentRoom(payload) {
   return {
     type: SETCURRENTROOM,
+    payload
+  };
+}
+
+export function updateSocketRoom(payload) {
+  return {
+    type: UPDATESOCKETROOM,
     payload
   };
 }

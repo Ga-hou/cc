@@ -10,6 +10,7 @@ import Login from "./layout/Login";
 import Agent from "./layout/Agent";
 import { store } from "./store";
 import "./App.css";
+import IM from "./views/User/IM/IM";
 
 const history = createBrowserHistory();
 
@@ -25,6 +26,7 @@ function App() {
                 <Route path={"/user"} component={Agent} />
                 <Route path={"/admin"} component={Admin} />
                 <Route path={"/login"} component={Login} />
+                <Route path={"/im"} component={IM} />
                 <Redirect from={"/"} to={"/online"} />
               </Switch>
             ) : (
