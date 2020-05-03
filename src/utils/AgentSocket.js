@@ -119,12 +119,6 @@ class AgentSocket {
     const message = this.createTextMessage({
       text: data
     });
-    // this.socket.connection.emit(
-    //   "system",
-    //   this.createTextMessage({
-    //     text: data
-    //   })
-    // );
     this.socket.sendToAll("chat", this.createSendToAllMessage(data));
     store.dispatch(updateMessage(message));
   }

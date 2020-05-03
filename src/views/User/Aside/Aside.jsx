@@ -65,7 +65,7 @@ export default function Aside() {
                   loading={answerLoading}
                   onClick={() => joinChatRoom(room)}
                 >
-                  接听
+                  {!answerLoading && "接听"}
                 </Button>
               )}
             </Menu.Item>

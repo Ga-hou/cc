@@ -14,7 +14,8 @@ import {
 const initialState = {
   rooms: [],
   currentRoom: null,
-  currentRoomMessage: [],
+  roomMessage: {},
+  // currentRoomMessage: [],
   videoRoom: null,
   loading: true
 };
@@ -25,7 +26,7 @@ export function socketReducer(state = initialState, action) {
       return initialState;
     case SETSOCKETROOM:
       state.rooms = action.payload;
-      state.currentRoomMessage = [];
+      // state.currentRoomMessage = [];
       return Object.assign({}, state);
     case ADDSOCKETROOM:
       state.rooms.push(action.payload);
@@ -43,9 +44,18 @@ export function socketReducer(state = initialState, action) {
       return Object.assign({}, state);
     case SETCURRENTROOM:
       state.currentRoom = action.payload;
+      if (
+        action.payload.roomName &&
+        !Array.isArray(state.roomMessage[action.payload.roomName])
+      ) {
+        state.roomMessage[action.payload.roomName] = [];
+      }
       return Object.assign({}, state);
     case UPDATEMESSAGE:
-      state.currentRoomMessage.push(action.payload);
+      if (Array.isArray(state.roomMessage[state.currentRoom.roomId])) {
+        state.roomMessage[state.currentRoom.roomId].push(action.payload);
+      }
+      // state.currentRoomMessage.push(action.payload);
       return Object.assign({}, state);
     case SETVIDEOROOM:
       state.videoRoom = state.currentRoom;
