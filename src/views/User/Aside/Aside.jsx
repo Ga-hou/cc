@@ -1,36 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Menu, Avatar, Layout, Button } from "antd";
-// import dayjs from "dayjs";
+import { debounce } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./Aside.style";
 import { setCurrentRoom, updateSocketRoom } from "../../../store/socket/action";
 import AgentSocket from "../../../utils/AgentSocket";
+import avatar from "../../../assets/tim.png";
 export default function Aside() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { rooms } = useSelector(e => e.socket);
-
-  // const today = useMemo(() => {
-  //   return dayjs().startOf("day");
-  // }, []);
+  const [answerLoading, setAnswerLoading] = useState(false);
 
   const setChatRoom = room => {
     dispatch(setCurrentRoom(room));
   };
 
-  const joinChatRoom = (e, room) => {
-    AgentSocket.join(room.roomId).then(roomName => {
-      dispatch(
-        updateSocketRoom({
-          roomName,
-          data: {
-            type: "chat"
-          }
-        })
-      );
-      setChatRoom(room);
-    });
+  const joinChatRoom = room => {
+    setAnswerLoading(true);
+    AgentSocket.join(room.roomId)
+      .then(roomName => {
+        setAnswerLoading(false);
+        dispatch(
+          updateSocketRoom({
+            roomName,
+            data: {
+              type: "chat"
+            }
+          })
+        );
+        setChatRoom(room);
+      })
+      .catch(() => {
+        setAnswerLoading(false);
+      });
   };
 
   return (
@@ -48,11 +52,19 @@ export default function Aside() {
             >
               <Avatar
                 size={"large"}
-                shape={"square"}
-                icon={<UserOutlined className={classes.userIcon} />}
+                shape={"circle"}
+                src={avatar}
+                // icon={<UserOutlined className={classes.userIcon} />}
               />
               {room.type === "call" && (
-                <Button type={"primary"} onClick={e => joinChatRoom(e, room)}>
+                <Button
+                  type={"primary"}
+                  size={"large"}
+                  shape={"circle"}
+                  className={classes.answer}
+                  loading={answerLoading}
+                  onClick={() => joinChatRoom(room)}
+                >
                   接听
                 </Button>
               )}

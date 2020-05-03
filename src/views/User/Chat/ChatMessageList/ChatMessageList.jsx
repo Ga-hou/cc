@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Comment, Tooltip, Avatar } from "antd";
 import dayjs from "dayjs";
 import useStyles from "./ChatMessage.style";
+import avatar from "../../../../assets/head.png";
+import userAvatar from "../../../../assets/tim.png";
 import * as MessageUtil from "../../../../utils/MessageUtil";
 
 export default function ChatMessageList() {
@@ -26,9 +28,7 @@ export default function ChatMessageList() {
                 key={key}
                 className={out && classes.ownMessage}
                 author={<a>{item.username}</a>}
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
+                avatar={<Avatar src={out ? avatar : userAvatar} />}
                 content={
                   <p className={out && classes.outContent}>
                     {item?.payload?.text}

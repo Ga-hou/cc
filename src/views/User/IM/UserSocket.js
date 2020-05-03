@@ -25,8 +25,8 @@ class UserSocket {
       detectSpeakingEvents: true,
       autoAdjustMic: true,
       media: {
-        video: true,
-        audio: true
+        video: false,
+        audio: false
       }
     });
     this.init();
@@ -83,7 +83,7 @@ class UserSocket {
     if (this.events["message"] instanceof Array) {
       this.events["message"].forEach(cb => {
         if (typeof cb === "function" && data.type === "chat") {
-          cb(data.payload);
+          cb(data);
         }
       });
     }

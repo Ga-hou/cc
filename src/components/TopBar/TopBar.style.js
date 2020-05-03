@@ -31,5 +31,9 @@ export default createUseStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  menu: {
+    width: 100,
+    textAlign: "center"
   }
 });

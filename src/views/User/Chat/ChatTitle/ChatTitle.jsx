@@ -2,9 +2,9 @@ import React from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-
 import useStyles from "./ChatTitle.style";
 import { delSocketRoom, setVideoRoom } from "../../../../store/socket/action";
+import avatar from "../../../../assets/tim.png";
 export default function Chat() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function Chat() {
   };
   return (
     <div className={classes.chatTitle}>
-      <Avatar size="large" icon={<UserOutlined />} />
+      <Avatar size="large" src={avatar} />
       <div className={classes.roomInfo}>房间: {currentRoom.roomName}</div>
       <Button
         className={classes.finishButton}

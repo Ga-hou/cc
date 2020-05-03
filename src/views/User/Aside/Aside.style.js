@@ -11,7 +11,14 @@ export default createUseStyles({
   },
   menuItem: {
     height: "60px !important",
-    lineHeight: "60px !important"
+    lineHeight: "60px !important",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    background: "#eee"
+  },
+  answer: {
+    fontSize: 14
   },
   loading: {
     position: "absolute",

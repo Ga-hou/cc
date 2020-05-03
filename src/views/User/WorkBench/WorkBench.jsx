@@ -27,10 +27,6 @@ export default function WorkBench() {
           <Chat />
         )}
         <IM />
-        <div
-          id="im-local-video-wrapper"
-          style={{ width: 200, height: 300 }}
-        ></div>
       </Content>
     </Layout>
   );

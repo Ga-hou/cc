@@ -11,6 +11,7 @@ import Agent from "./layout/Agent";
 import { store } from "./store";
 import "./App.css";
 import IM from "./views/User/IM/IM";
+import WebRTC from "./views/WebRTC/WebRTC";
 
 const history = createBrowserHistory();
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path={"/admin"} component={Admin} />
                 <Route path={"/login"} component={Login} />
                 <Route path={"/im"} component={IM} />
+                <Route path={"/webrtc"} component={WebRTC} />
                 <Redirect from={"/"} to={"/online"} />
               </Switch>
             ) : (

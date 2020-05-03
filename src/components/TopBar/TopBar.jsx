@@ -4,8 +4,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 import { Layout, Avatar, Dropdown, Menu, Typography } from "antd";
 import useStyles from "./TopBar.style";
-const { Header } = Layout;
 import { delUserInfo } from "../../store/userInfo/action";
+import avatar from "../../assets/head.png";
+
+const { Header } = Layout;
 
 export default function TopBar() {
   const classes = useStyles();
@@ -28,8 +30,9 @@ export default function TopBar() {
         基于WebRTC的客服系统
       </Typography.Title>
       <Dropdown
+        placement={"bottomCenter"}
         overlay={
-          <Menu>
+          <Menu className={classes.menu}>
             {location.pathname !== "/online" && (
               <Menu.Item onClick={unLine}>下线</Menu.Item>
             )}
@@ -37,7 +40,7 @@ export default function TopBar() {
           </Menu>
         }
       >
-        <Avatar size={50} icon={<UserOutlined />} />
+        <Avatar size={50} src={avatar} />
       </Dropdown>
     </Header>
   );

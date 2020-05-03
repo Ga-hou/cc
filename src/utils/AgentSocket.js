@@ -28,8 +28,8 @@ class AgentSocket {
       detectSpeakingEvents: true,
       autoAdjustMic: true,
       media: {
-        video: true,
-        audio: true
+        video: false,
+        audio: false
       }
     });
     this.init();
@@ -117,8 +117,13 @@ class AgentSocket {
     const message = this.createTextMessage({
       text: data
     });
-    this.socket.connection.emit("system", message);
-    this.socket.sendToAll("chat", message);
+    // this.socket.connection.emit(
+    //   "system",
+    //   this.createTextMessage({
+    //     text: data
+    //   })
+    // );
+    this.socket.sendToAll("chat", this.createSendToAllMessage(data));
     store.dispatch(updateMessage(message));
   }
 
@@ -139,6 +144,14 @@ class AgentSocket {
       "agent",
       data
     );
+  }
+
+  createSendToAllMessage(data) {
+    return {
+      role: "agent",
+      text: data,
+      username: store.getState().userInfo.username
+    };
   }
 
   leave() {
