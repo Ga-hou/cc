@@ -67,6 +67,7 @@ export function updateMessage(payload) {
 
 export function setVideoRoom(payload) {
   IM.startLocalVideo();
+  IM.sendCallMessage("calling");
   return {
     type: SETVIDEOROOM,
     payload

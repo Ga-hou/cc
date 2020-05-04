@@ -2,7 +2,7 @@ import axios from "axios";
 import { Modal, message } from "antd";
 import { getToken, removeToken } from "../utils/token";
 const service = axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: "http://192.168.0.122:8081",
   timeout: 60000
 });
 

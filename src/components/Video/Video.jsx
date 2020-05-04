@@ -10,10 +10,19 @@ export default function Video() {
     <Draggable>
       <Card
         className={classes.videoCard}
+        bodyStyle={{
+          width: 800,
+          height: 500
+        }}
         style={videoRoom ? { display: "block" } : { display: "none" }}
       >
-        <div className={classes.local} id="video">
-          <video className={classes.video} id="local-video" autoPlay />
+        <div className={classes.videoWrapper}>
+          <video
+            className={classes.localVideo}
+            id="agent-local-video"
+            autoPlay
+          />
+          <div className={classes.remoteVideo} id="agent-remote-video"></div>
         </div>
       </Card>
     </Draggable>

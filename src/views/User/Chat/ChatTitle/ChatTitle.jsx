@@ -1,5 +1,6 @@
 import React from "react";
 import { Avatar, Button } from "antd";
+import { VideoCameraOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./ChatTitle.style";
 import { delSocketRoom, setVideoRoom } from "../../../../store/socket/action";
@@ -24,9 +25,8 @@ export default function Chat() {
         shape="round"
         size="large"
         onClick={startVideoRoom}
-      >
-        发起视频
-      </Button>
+        icon={<VideoCameraOutlined />}
+      />
       <Button
         className={classes.finishButton}
         type="danger"

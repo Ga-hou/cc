@@ -1,6 +1,5 @@
 import SimpleWebRtc from "../../../utils/simplewebrtc-with-adapter.bundle";
 import * as MessageUtil from "../../../utils/MessageUtil";
-import { ulid } from "ulid";
 class UserSocket {
   constructor() {
     this.socket = null;
@@ -17,16 +16,16 @@ class UserSocket {
 
   open() {
     this.socket = new SimpleWebRtc({
-      url: "http://localhost:8082",
-      localVideoEl: "im-local-video",
+      url: "http://192.168.0.122:8082",
+      localVideoEl: "user-local-video",
       debug: false,
-      remoteVideosEl: "im-remote-video",
+      remoteVideosEl: "user-remote-video",
       autoRequestMedia: true,
       detectSpeakingEvents: true,
       autoAdjustMic: true,
       media: {
-        video: false,
-        audio: false
+        video: true,
+        audio: true
       }
     });
     this.init();
@@ -44,11 +43,20 @@ class UserSocket {
     this.socket.connection.on("login", () => this.handleLogin());
     this.socket.connection.on("message", data => this.handleMessage(data));
     this.socket.connection.on("create", data => this.handleCreate(data));
+    this.socket.connection.on("call", data => this.handleCallEvent(data));
+    this.socket.on("createdPeer", peer => {
+      console.error("createdPeer", peer);
+    });
+    this.socket.on("joinedRoom", roomName => {
+      console.error("JoinedRoom", roomName);
+    });
     this.socket.on("localStream", () => {
       console.error("localStream");
+      console.error("peers", this.socket.getPeers());
     });
     this.socket.on("videoAdded", (video, peer) => {
-      document.getElementById("remote-video-wrapper").appendChild(video);
+      console.error("坐席的video", video);
+      document.getElementById("user-remote-video").appendChild(video);
     });
   }
 
@@ -87,6 +95,13 @@ class UserSocket {
         }
       });
     }
+    if (this.events["call"] instanceof Array) {
+      this.events["call"].forEach(cb => {
+        if (typeof cb === "function" && data.type === "call") {
+          cb(data);
+        }
+      });
+    }
   }
 
   handleTriggerWelcome() {
@@ -115,6 +130,15 @@ class UserSocket {
   handleCreate(data) {
     console.log("用户创建房间成功", data);
     this.handleTriggerWelcome();
+  }
+
+  startLocalVideo() {
+    this.socket.startLocalVideo();
+  }
+  getPeers() {
+    this.socket.getPeers().forEach(peer => {
+      this.socket.handlePeerStreamAdded(peer);
+    });
   }
 }
 

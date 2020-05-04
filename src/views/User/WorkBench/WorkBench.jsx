@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useStyles from "./WorkBench.style";
 import Chat from "../Chat/Chat";
 import AgentSocket from "../../../utils/AgentSocket";
-import IM from "../IM/IM";
+import { IMWithButton as IM } from "../IM/IM";
 const { Content } = Layout;
 export default function WorkBench() {
   const classes = useStyles();
@@ -26,7 +26,7 @@ export default function WorkBench() {
         ) : (
           <Chat />
         )}
-        <IM />
+        {/* <IM /> */}
       </Content>
     </Layout>
   );

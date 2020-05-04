@@ -10,7 +10,7 @@ import Login from "./layout/Login";
 import Agent from "./layout/Agent";
 import { store } from "./store";
 import "./App.css";
-import IM from "./views/User/IM/IM";
+import { IMWithCard as IM } from "./views/User/IM/IM";
 import WebRTC from "./views/WebRTC/WebRTC";
 
 const history = createBrowserHistory();

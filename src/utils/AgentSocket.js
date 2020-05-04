@@ -16,21 +16,22 @@ class AgentSocket {
   constructor() {
     this.events = {};
     this.socket = null;
+    this.id = null;
   }
 
   open() {
     console.log("agent socket open");
     this.socket = new SimpleWebRtc({
-      url: "http://localhost:8082",
-      localVideoEl: "local-video",
+      url: "http://192.168.0.122:8082",
+      localVideoEl: "agent-local-video",
+      remoteVideosEl: "agent-remote-videos",
       debug: false,
-      remoteVideosEl: "remote-videos",
       autoRequestMedia: true,
       detectSpeakingEvents: true,
       autoAdjustMic: true,
       media: {
-        video: false,
-        audio: false
+        video: true,
+        audio: true
       }
     });
     this.init();
@@ -40,6 +41,7 @@ class AgentSocket {
     this.socket.leaveRoom();
     this.socket.disconnect();
     this.socket = null;
+    this.id = null;
     store.dispatch(resetSocketRoom());
     console.log("webrtc close");
   }
@@ -68,15 +70,22 @@ class AgentSocket {
         );
       }
     });
-    this.socket.on("connectionReady", () => {
+    this.socket.on("connectionReady", id => {
+      this.id = id;
       console.log("坐席连接完成");
       this.login();
     });
     this.socket.on("localStream", () => {
       console.error("localStream");
+      this.socket.pause();
     });
-    this.socket.on("videoAdded", (vide, peer) => {
-      console.error("videoAdded");
+    this.socket.on("createdPeer", peer => {
+      console.error("createdPeer", peer);
+    });
+    this.socket.on("videoAdded", (video, peer) => {
+      console.error("videoAdded", video);
+      if (video.id.indexOf(this.id) !== -1) return;
+      document.getElementById("agent-remote-video").appendChild(video);
     });
     this.socket.connection.on("login", event => {
       console.log("坐席登录响应");
@@ -111,7 +120,6 @@ class AgentSocket {
     console.log("坐席登录");
     const userInfo = store.getState().userInfo;
     const msg = this.createTextMessage(userInfo);
-    // this.socket.sendToAll("login", msg);
     this.socket.connection.emit("login", msg);
   }
 
@@ -123,12 +131,17 @@ class AgentSocket {
     store.dispatch(updateMessage(message));
   }
 
+  sendCallMessage(data) {
+    this.socket.sendToAll("call", this.createSendToAllMessage(data));
+  }
+
   getRooms() {
     this.socket.connection.emit("rooms", this.createTextMessage({}));
   }
 
   startLocalVideo() {
-    this.socket.startLocalVideo();
+    this.socket.resume();
+    // this.socket.startLocalVideo();
   }
   stopLocalVideo() {
     this.socket.stopLocalVideo();

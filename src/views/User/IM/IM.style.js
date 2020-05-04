@@ -1,6 +1,20 @@
 import { createUseStyles } from "react-jss";
 
 export default createUseStyles({
+  cardWrapper: {
+    // width: "100vw",
+    // height: "100vh"
+    position: "absolute",
+    width: 400,
+    height: 720,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+  },
+  card: {
+    width: "100%",
+    height: "100%"
+  },
   popover: {
     position: "relative",
     padding: 0
@@ -11,8 +25,8 @@ export default createUseStyles({
     right: 20
   },
   im: {
-    width: 400,
-    height: 600,
+    width: "100%",
+    height: "100%",
     display: "flex",
     flexDirection: "column"
   },
@@ -28,8 +42,8 @@ export default createUseStyles({
       content: '""',
       position: "absolute",
       top: 0,
-      left: -16,
-      width: 432,
+      left: "-0.1%",
+      width: "100%",
       height: 1,
       background: "#e8e8e8"
     }
@@ -58,5 +72,15 @@ export default createUseStyles({
   },
   outContent: {
     textAlign: "right"
+  },
+  callButton: {
+    position: "absolute",
+    right: 120,
+    bottom: 20
+  },
+  peerButton: {
+    position: "absolute",
+    right: 180,
+    bottom: 20
   }
 });
