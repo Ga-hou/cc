@@ -1,11 +1,24 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Draggable from "react-draggable";
-import { Card } from "antd";
+import { Card, Button } from "antd";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import useStyles from "./Video.style";
+import { useDispatch } from "react-redux";
+import { stopVideoCall } from "../../store/socket/action";
+import AgentSocket from "../../utils/AgentSocket";
+
 export default function Video() {
   const classes = useStyles();
-  const { videoRoom } = useSelector(e => e.socket);
+  const { videoRoom, callType } = useSelector(e => e.socket);
+  const dispatch = useDispatch();
+  const onHandleCloseVideo = () => {
+    dispatch(stopVideoCall());
+    AgentSocket.sendCallMessage(null);
+    AgentSocket.send("通话已结束");
+  };
+
+  console.error("callType123123", callType);
   return (
     <Draggable>
       <Card
@@ -22,7 +35,24 @@ export default function Video() {
             id="agent-local-video"
             autoPlay
           />
-          <div className={classes.remoteVideo} id="agent-remote-video"></div>
+          <div
+            className={classes.remoteVideo}
+            id="agent-remote-video"
+            style={{
+              display: callType === "answer" ? "block" : "none"
+            }}
+          ></div>
+          <div className={classes.callingVideo}>
+            {callType === "calling" && "呼叫中"}
+          </div>
+          <Button
+            className={classes.closeButton}
+            icon={<CloseCircleOutlined />}
+            type="danger"
+            shape="circle"
+            size="large"
+            onClick={onHandleCloseVideo}
+          ></Button>
         </div>
       </Card>
     </Draggable>

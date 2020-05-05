@@ -8,7 +8,9 @@ import {
   SETLOADING,
   ADDSOCKETROOM,
   UPDATESOCKETROOM,
-  RESETSOCKETROOM
+  RESETSOCKETROOM,
+  UPDATECALLTYPE,
+  STOPVIDEOCALL
 } from "./types";
 import IM from "../../utils/AgentSocket";
 import AgentSocket from "../../utils/AgentSocket";
@@ -66,8 +68,8 @@ export function updateMessage(payload) {
 }
 
 export function setVideoRoom(payload) {
-  IM.startLocalVideo();
   IM.sendCallMessage("calling");
+  IM.startLocalVideo();
   return {
     type: SETVIDEOROOM,
     payload
@@ -85,6 +87,20 @@ export function stopVideoRoom(payload) {
 export function setLoading(payload) {
   return {
     type: SETLOADING,
+    payload
+  };
+}
+
+export function updateCallType(payload) {
+  return {
+    type: UPDATECALLTYPE,
+    payload
+  };
+}
+
+export function stopVideoCall(payload) {
+  return {
+    type: STOPVIDEOCALL,
     payload
   };
 }

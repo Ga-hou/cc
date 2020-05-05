@@ -52,7 +52,6 @@ export default function IM() {
   };
 
   const onHandleCallEvent = message => {
-    console.error("call Event", message);
     setCallType(message.payload.text);
   };
 
@@ -83,6 +82,7 @@ export default function IM() {
         display={display}
         zIndex={zIndex}
         setCallType={setCallType}
+        setMessageList={setMessageList}
       />
       <div className={classes.im}>
         <div id={"userMessageWrapper"} className={classes.messageWrapper}>

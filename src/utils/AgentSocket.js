@@ -8,7 +8,9 @@ import {
   setSocketRoom,
   updateMessage,
   addSocketRoom,
-  resetSocketRoom
+  resetSocketRoom,
+  updateCallType,
+  stopVideoCall
 } from "../store/socket/action";
 import { delUserInfo } from "../store/userInfo/action";
 
@@ -22,7 +24,7 @@ class AgentSocket {
   open() {
     console.log("agent socket open");
     this.socket = new SimpleWebRtc({
-      url: "http://192.168.0.122:8082",
+      url: process.env.REACT_APP_SOCKET_API,
       localVideoEl: "agent-local-video",
       remoteVideosEl: "agent-remote-videos",
       debug: false,
@@ -105,6 +107,13 @@ class AgentSocket {
       if (data.type === "chat") {
         store.dispatch(updateMessage(data.payload));
       }
+      if (data.type === "call") {
+        console.error("收到callType消息", data);
+        if (data.payload.text === null) {
+          store.dispatch(stopVideoCall());
+        }
+        store.dispatch(updateCallType(data.payload.text));
+      }
     });
     // 房间列表
     this.socket.connection.on("rooms", data => {
@@ -141,7 +150,6 @@ class AgentSocket {
 
   startLocalVideo() {
     this.socket.resume();
-    // this.socket.startLocalVideo();
   }
   stopLocalVideo() {
     this.socket.stopLocalVideo();

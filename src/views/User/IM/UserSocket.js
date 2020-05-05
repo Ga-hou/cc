@@ -16,7 +16,7 @@ class UserSocket {
 
   open() {
     this.socket = new SimpleWebRtc({
-      url: "http://192.168.0.122:8082",
+      url: process.env.REACT_APP_SOCKET_API,
       localVideoEl: "user-local-video",
       debug: false,
       remoteVideosEl: "user-remote-video",
@@ -83,6 +83,10 @@ class UserSocket {
     return message;
   }
 
+  sendCallMessage(data) {
+    this.socket.sendToAll("call", this.createSendToAllMessage(data));
+  }
+
   handleLogin() {
     this.handleTriggerWelcome();
   }
@@ -125,6 +129,14 @@ class UserSocket {
       payload,
       "chat"
     );
+  }
+
+  createSendToAllMessage(data) {
+    return {
+      role: "user",
+      text: data,
+      username: this.getConnection().id
+    };
   }
 
   handleCreate(data) {

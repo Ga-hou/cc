@@ -2,7 +2,7 @@ import axios from "axios";
 import { Modal, message } from "antd";
 import { getToken, removeToken } from "../utils/token";
 const service = axios.create({
-  baseURL: "http://192.168.0.122:8081",
+  baseURL: process.env.REACT_APP_REQUEST_API,
   timeout: 60000
 });
 

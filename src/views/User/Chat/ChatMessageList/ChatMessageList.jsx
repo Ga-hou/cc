@@ -9,9 +9,7 @@ import * as MessageUtil from "../../../../utils/MessageUtil";
 
 export default function ChatMessageList() {
   const classes = useStyles();
-  const { currentRoomMessage, currentRoom, roomMessage } = useSelector(
-    e => e.socket
-  );
+  const { currentRoom, roomMessage } = useSelector(e => e.socket);
   const { username } = useSelector(e => e.userInfo);
 
   React.useEffect(() => {
