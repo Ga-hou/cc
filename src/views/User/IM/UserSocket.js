@@ -45,17 +45,16 @@ class UserSocket {
     this.socket.connection.on("create", data => this.handleCreate(data));
     this.socket.connection.on("call", data => this.handleCallEvent(data));
     this.socket.on("createdPeer", peer => {
-      console.error("createdPeer", peer);
+      console.warn("createdPeer", peer);
     });
     this.socket.on("joinedRoom", roomName => {
-      console.error("JoinedRoom", roomName);
+      console.warn("JoinedRoom", roomName);
     });
     this.socket.on("localStream", () => {
-      console.error("localStream");
-      console.error("peers", this.socket.getPeers());
+      console.warn("localStream");
     });
     this.socket.on("videoAdded", (video, peer) => {
-      console.error("坐席的video", video);
+      console.warn("坐席的video", video);
       document.getElementById("user-remote-video").appendChild(video);
     });
   }

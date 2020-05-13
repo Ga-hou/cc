@@ -78,14 +78,14 @@ class AgentSocket {
       this.login();
     });
     this.socket.on("localStream", () => {
-      console.error("localStream");
+      console.warn("localStream");
       this.socket.pause();
     });
     this.socket.on("createdPeer", peer => {
-      console.error("createdPeer", peer);
+      console.warn("createdPeer", peer);
     });
     this.socket.on("videoAdded", (video, peer) => {
-      console.error("videoAdded", video);
+      console.warn("videoAdded", video);
       if (video.id.indexOf(this.id) !== -1) return;
       document.getElementById("agent-remote-video").appendChild(video);
     });
@@ -108,7 +108,6 @@ class AgentSocket {
         store.dispatch(updateMessage(data.payload));
       }
       if (data.type === "call") {
-        console.error("收到callType消息", data);
         if (data.payload.text === null) {
           store.dispatch(stopVideoCall());
         }

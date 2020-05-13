@@ -18,7 +18,6 @@ export default function Video() {
     AgentSocket.send("通话已结束");
   };
 
-  console.error("callType123123", callType);
   return (
     <Draggable>
       <Card
